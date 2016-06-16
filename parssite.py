@@ -1,9 +1,3 @@
-# Copyright: 2016, Pavel Konurkin
-# Author: Pavel Konurkin
-# License: BSD
-"""
-Library for parsing sites
-"""
 from __future__ import print_function
 from grab import Grab
 from lxml import etree
@@ -2929,6 +2923,21 @@ class MaxTransactionsControlCatcher(object):
         self.transactionNumber += 1
         if self.transactionNumber > self.maxTransactions:
             raise StopParsing
+
+
+class ProgressCatcher(object):
+
+    def __init__(self, msg=None):
+        if msg is None:
+            msg = ''
+        if type(msg) is unicode:
+            msg = msg.encode(ParsBase._encoding)
+        self.msg = msg
+        self.counter = 0
+
+    def __call__(self, instance):
+        self.counter += 1
+        print(self.msg + str(self.counter))
 
 
 # ----------------------------------------------------------------------
